@@ -45,7 +45,7 @@
 
     <div id="transcription" class="relative w-full max-w-3xl flex flex-col bg-white p-8 pb-0 border border-gray-200 rounded-lg shadow-lg">
       <div class="flex-1 flex flex-col justify-between">
-        <button id="copyButton" class="hidden absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2">
+        <button id="copyButton" class="absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2" style="display: none;">
           <i class="fa fa-copy"></i>
         </button>
         <div id="transcriptionText" style="min-height: 100px; max-height: 400px; overflow-y: auto;" class="mb-4 flex flex-col gap-2">
@@ -69,6 +69,13 @@
           Poser une question à ChatGPT à propos de la transcription :
         </label>
         <textarea id="summary" class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full resize-none" rows="1" placeholder="Quel est le sujet de la réunion ?" onkeydown="textareaKeydown(event);"></textarea>
+      </div>
+    </div>
+
+    <div id="modal-loading" class="hidden fixed inset-0 bg-black/70 justify-center items-center">
+      <div class="">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+        <div class="text-center text-white text-xl font-semibold mt-4">Traitement en cours...</div>
       </div>
     </div>
 

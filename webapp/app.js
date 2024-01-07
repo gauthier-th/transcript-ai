@@ -45,6 +45,8 @@ document.getElementById('submitAudio').addEventListener('click', async () => {
 
   console.log("Fichier audio envoyé pour transcription : ", audioFile.name);
 
+  document.getElementById("modal-loading").style.display = "flex";
+
   try {
     const formData = new FormData();
     formData.append('audio', audioFile);
@@ -59,7 +61,7 @@ document.getElementById('submitAudio').addEventListener('click', async () => {
 		container.innerHTML = '';
     transcriptionProcessed = true;
 
-    document.getElementById("copyButton").style.display = "none";
+    // document.getElementById("copyButton").style.display = "none";
     document.getElementById('conversation').classList.add('hidden');
   
 		jsonData.forEach((entry, index) => {
@@ -87,6 +89,8 @@ document.getElementById('submitAudio').addEventListener('click', async () => {
     console.error('Erreur lors de la transcription du fichier audio : ', err);
     alert("Erreur lors de la transcription du fichier audio");
   }
+
+  document.getElementById("modal-loading").style.display = "none";
 });
 
 document.getElementById('copyButton').addEventListener('click', () => {
@@ -96,7 +100,7 @@ document.getElementById('copyButton').addEventListener('click', () => {
     try {
       navigator.clipboard.writeText(transcriptionText)
       console.log('Texte copié avec succès !');
-      const copyBtn = document.getElementById('copyButton');
+      // const copyBtn = document.getElementById('copyButton');
       copyBtn.innerHTML = '<i class="fas fa-check"></i>';
 
       setTimeout(() => {
@@ -112,7 +116,7 @@ document.getElementById('copyButton').addEventListener('click', () => {
 document.getElementById('summarizeButton').addEventListener('click', async () => {
   // if (!transcriptionProcessed) return;
 
-  document.getElementById("copyButton").style.display = "block";
+  // document.getElementById("copyButton").style.display = "block";
   document.getElementById('conversation').classList.add('hidden');
 
   console.log("Demande de résumé de la transcription");
@@ -168,7 +172,7 @@ document.getElementById('summarizeButton').addEventListener('click', async () =>
 document.getElementById('createConversation').addEventListener('click', async () => {
   // if (!transcriptionProcessed) return;
 
-  document.getElementById("copyButton").style.display = "none";
+  // document.getElementById("copyButton").style.display = "none";
 
   console.log("Conversation avec ChatGPT");
   const container = document.getElementById('transcriptionText');
