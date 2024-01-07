@@ -73,7 +73,7 @@ def summarize():
 
   transcription = process_transcribe(data)
 
-  prompt = "Tu es un assistant virtuel qui aide les gens à résumer des conversations. Tu dois résumer la conversation. N'utilise pas le terme \"Personne X\" pour désigner les interlocuteurs. Au début du résumé, tu dois indiquer de quel type de conversation il s'agit (interview, conversation entre amis, etc.) et tu dois aussi indiquer le nombre de personnes qui participent à la conversation. Marque ces informations là de cette façon : \"Résumé de l'interview/conversation/etc. avec X interlocuteurs :\n\n\""
+  prompt = "Tu es un assistant virtuel qui aide les gens à résumer des conversations. Tu dois résumer la conversation. N'utilise pas le terme \"Personne X\" pour désigner les interlocuteurs. Au début du résumé, tu dois indiquer de quel type de conversation il s'agit (interview, conversation entre amis, etc.) et tu dois aussi indiquer le nombre de personnes qui participent à la conversation. Marque ces informations là de cette façon : \"Résumé de l'interview/conversation/etc. (X personnes) :\n\n\""
   conversation = "\n".join([("Personne " + str(x["speaker"]) + " : " + x["text"]) for x in transcription])
 
   chat_completion = client.chat.completions.create(
@@ -94,8 +94,10 @@ def summarize():
 
   return { "summary": summary }
 
-@app.route('/api/createTaskList')
-def createTaskList():
+@app.route('/api/chat', methods=['POST'])
+def chat():
+  text = request.json["text"]
+
   num_files = len(os.listdir("uploads"))
   f = open(os.path.join("uploads", str(num_files - 1), "result.json"), "r")
   data = json.loads(f.read())
@@ -103,7 +105,8 @@ def createTaskList():
 
   transcription = process_transcribe(data)
 
-  prompt = "Tu es un assistant virtuel qui aide les gens à créer des listes de tâches. Tu dois créer une liste de tâches à partir de la conversation si la conversation indique des tâches à réaliser à chaque personne, si ce n'est pas le cas, réponds que la conversation ne donne pas de tâches à réaliser. N'utilise pas le terme \"Personne X\" pour désigner les interlocuteurs. Au début de la liste, tu dois indiquer de quel type de conversation il s'agit (interview, conversation entre amis, etc.) et tu dois aussi indiquer le nombre de personnes qui participent à la conversation. Marque ces informations là de cette façon : \"Liste de tâches à partir de l'interview/conversation/etc. avec X interlocuteurs :\n\n\""
+  prompt = "Tu es un assistant virtuel qui aide les gens à répondre à des questions sur une conversation. N'utilise pas le terme \"Personne X\" pour désigner les interlocuteurs."
+
   conversation = "\n".join([("Personne " + str(x["speaker"]) + " : " + x["text"]) for x in transcription])
 
   chat_completion = client.chat.completions.create(
@@ -114,16 +117,13 @@ def createTaskList():
       },
       {
         "role": "user",
-        "content": conversation
+        "content": "QUESTION : " + text + "\nCONVERSATION :\n" + conversation
       }
     ],
     model="gpt-3.5-turbo-1106",
   )
 
-  taskList = chat_completion.choices[0].message.content
-
-  return { "taskList": taskList }
-
+  return { "response": chat_completion.choices[0].message.content }
 
 if __name__ == '__main__':
   app.run(debug=True, host='0.0.0.0', port=5000)

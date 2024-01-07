@@ -31,36 +31,44 @@
         <button id="summarizeButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
           Résumer la transcription
         </button>
-        <button id="createTasksButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          Créer une liste de tâches
+        <button id="createConversation" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+          Poser des questions
         </button>
       </div>
 
 	  <div class="mt-8 flex flex-col gap-2">
-        <button id="resetButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-			Réinitialiser
+        <button id="resetButton" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">
+          Rénitialiser
         </button>
       </div>
     </div>
 
-    <div id="transcription" class="relative w-full max-w-3xl bg-white p-8 border border-gray-200 rounded-lg shadow-lg">
-      <button id="copyButton" class="absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2">
-        <i class="fa fa-copy"></i>
-      </button>
-      <div id="transcriptionText" style="min-height: 100px; max-height: 400px; overflow-y: auto;" class="mb-4 flex flex-col gap-2">
-		<div style="display: flex; align-items: center; justify-content: center; margin: 20px auto; padding: 20px; border-radius: 10px; background-color: #f0f0f0; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); max-width: 400px;">
-			<div style="margin-right: 10px; font-size: 24px;">ℹ️</div>
-			<div style="font-size: 16px;">Bienvenue sur Transcript AI</div>
-	    </div>
-		<div style="border-radius: 20px; padding: 10px 15px; margin-bottom: 10px; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); background-color: #f0f0f0; max-width: 60%; align-self: flex-start;">
+    <div id="transcription" class="relative w-full max-w-3xl flex flex-col bg-white p-8 pb-0 border border-gray-200 rounded-lg shadow-lg">
+      <div class="flex-1 flex flex-col justify-between">
+        <button id="copyButton" class="hidden absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2">
+          <i class="fa fa-copy"></i>
+        </button>
+        <div id="transcriptionText" style="min-height: 100px; max-height: 400px; overflow-y: auto;" class="mb-4 flex flex-col gap-2">
+      <div style="display: flex; align-items: center; justify-content: center; margin: 20px auto; padding: 20px; border-radius: 10px; background-color: #f0f0f0; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); max-width: 400px;">
+        <div style="margin-right: 10px; font-size: 24px;">ℹ️</div>
+        <div style="font-size: 16px;">Bienvenue sur Transcript AI</div>
+        </div>
+          <div style="border-radius: 20px; padding: 10px 15px; margin-bottom: 10px; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); background-color: #f0f0f0; max-width: 60%; align-self: flex-start;">
             Transcript AI est un outil de transcription automatique de vos fichiers audio. Il vous permet de gagner du temps !
-        </div>
-        <div style="border-radius: 20px; padding: 10px 15px; margin-bottom: 10px; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); background-color: #e0f7fa; max-width: 60%; align-self: flex-end;">
-            Ah bon ?! Comment ça marche ?
-        </div>
-        <div style="border-radius: 20px; padding: 10px 15px; margin-bottom: 10px; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); background-color: #f0f0f0; max-width: 60%; align-self: flex-start;">
+          </div>
+          <div style="border-radius: 20px; padding: 10px 15px; margin-bottom: 10px; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); background-color: #e0f7fa; max-width: 60%; align-self: flex-end;">
+            Comment ça marche ?
+          </div>
+          <div style="border-radius: 20px; padding: 10px 15px; margin-bottom: 10px; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); background-color: #f0f0f0; max-width: 60%; align-self: flex-start;">
             Importez votre fichier audio, puis cliquez sur le bouton "Transcrire". Une fois la transcription terminée, vous pourrez résumer le texte ou créer une liste de tâches.
+          </div>
         </div>
+      </div>
+      <div id="conversation" class="mb-4 flex flex-col -mx-4 hidden">
+        <label class="block text-gray-600 text-sm" for="summary">
+          Poser une question à ChatGPT à propos de la transcription :
+        </label>
+        <textarea id="summary" class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full resize-none" rows="1" placeholder="Quel est le sujet de la réunion ?" onkeydown="textareaKeydown(event);"></textarea>
       </div>
     </div>
 
