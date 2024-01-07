@@ -1,4 +1,4 @@
-document.getElementById('submitAudio').addEventListener('click', () => {
+document.getElementById('submitAudio').addEventListener('click', async () => {
   const audioFile = document.getElementById('audioFile').files[0];
 
   if (!audioFile) {
@@ -12,6 +12,22 @@ document.getElementById('submitAudio').addEventListener('click', () => {
   }
 
   console.log("Fichier audio envoyé pour transcription : ", audioFile.name);
+
+  try {
+    const formData = new FormData();
+    formData.append('audio', audioFile);
+    const res = await fetch('/api/transcribe', {
+      method: 'POST',
+      body: formData,
+    });
+    if (!res.ok) {
+      throw new Error(`Erreur lors de la transcription du fichier audio : ${res.status}`);
+    }
+  }
+  catch {
+    console.error('Erreur lors de la transcription du fichier audio : ', err);
+    alert("Erreur lors de la transcription du fichier audio");
+  }
 });
 
 document.getElementById('copyButton').addEventListener('click', () => {
