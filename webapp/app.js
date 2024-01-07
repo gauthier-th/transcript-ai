@@ -141,11 +141,39 @@ document.getElementById('summarizeButton').addEventListener('click', async () =>
   }
 });
 
-document.getElementById('createTasksButton').addEventListener('click', () => {
+document.getElementById('createTasksButton').addEventListener('click', async () => {
+  if (!transcriptionProcessed) return;
+
   console.log("Demande de création d'une liste de tâches");
   const container = document.getElementById('transcriptionText');
   container.innerHTML = '';
   container.appendChild(createInformationMessage('Liste de tâches'));
+
+  try {
+    const res = await fetch('/api/createTaskList');
+    if (res.ok) {
+      const jsonData = await res.json();
+      console.log("Résumé de la transcription : ", jsonData);
+      container.innerHTML = '';
+      const div = document.createElement('div');
+      div.textContent = jsonData.taskList;
+      div.style.cssText = `
+        border-radius: 20px; 
+        padding: 10px 15px; 
+        margin-bottom: 10px; 
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); 
+        background-color: #f0f0f0; 
+        max-width: 60%; 
+        align-self: center;
+      `;
+      container.appendChild(div);
+    
+    }
+  }
+  catch (err) {
+    console.error('Erreur lors de la génération du résumé : ', err);
+    alert("Erreur lors de la génération du résumé");
+  }
 });
 
 document.getElementById('resetButton').addEventListener('click', () => {
