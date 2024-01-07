@@ -4,8 +4,8 @@ import os
 
 app = Flask(__name__,
             static_url_path='', 
-            static_folder='../webapp',
-            template_folder='../webapp')
+            static_folder='./webapp',
+            template_folder='./webapp')
 
 file_processing = False
 
