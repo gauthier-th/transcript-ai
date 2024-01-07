@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Transcript AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+  <div class="flex justify-center gap-4">
+
+    <div class="max-w-sm bg-white p-8 border border-gray-200 rounded-lg shadow-lg">
+      <h1 class="text-2xl font-semibold text-center text-gray-700 mb-6">Transcript AI</h1>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="audioFile">
+          Déposer un fichier audio
+        </label>
+        <input id="audioFile" type="file"
+          class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full">
+      </div>
+
+      <button id="submitAudio" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
+        Transcrire
+      </button>
+
+      <div class="mt-8 flex flex-col gap-2">
+        <button id="summarizeButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+          Résumer la transcription
+        </button>
+        <button id="createTasksButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+          Créer une liste de tâches
+        </button>
+      </div>
+    </div>
+
+    <div id="transcription" class="relative max-w-3xl bg-white p-8 border border-gray-200 rounded-lg shadow-lg">
+      <button id="copyButton"
+        class="absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2">
+        <i class="fa fa-copy"></i>
+      </button>
+      <div id="transcriptionText" style="min-height: 100px; max-height: 400px; overflow-y: auto;">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non, reiciendis sunt. Eius, hic consequuntur! Dolores
+        autem expedita velit atque, perferendis dolorem voluptas molestiae, eius iusto alias ullam facilis error
+        ducimus!
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste sunt suscipit obcaecati magnam exercitationem
+        inventore, dolore repudiandae architecto harum dicta velit reprehenderit minus nemo accusamus quaerat recusandae
+        odit dolorem dolores.
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse illo, dignissimos, iusto maxime doloremque non at
+        odio vitae, sequi voluptas voluptatibus aliquam hic tenetur. Optio consequatur necessitatibus ullam enim atque?
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic rem, recusandae quis earum consequatur praesentium
+        harum distinctio debitis nesciunt, autem voluptatem fugiat quasi libero expedita et totam minus iste culpa.
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta voluptatibus ratione accusamus voluptatem!
+        Culpa, perferendis esse. Assumenda fuga explicabo ratione accusantium, necessitatibus voluptatum autem suscipit
+        velit nobis officiis quisquam ducimus!
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
