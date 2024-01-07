@@ -3,18 +3,16 @@ import whisperx
 import gc
 import time
 
-device = "cuda"
+device = "cuda" # "cpu" or "cuda"
 batch_size = 32 # reduce if low on GPU mem
-compute_type = "float16" # change to "int8" if low on GPU mem (may reduce accuracy)
-
-
-# 1. Transcribe with original whisper (batched)
-# model = whisperx.load_model("small", device, compute_type=compute_type)
+compute_type = "float16" # change to "int8" if low on GPU mem or CPU (may reduce accuracy)
 
 
 def transcribe(filename):
   init_time = time.time()
 
+  # 1. Transcribe with original whisper (batched)
+  # model = whisperx.load_model("small", device, compute_type=compute_type)
   audio = whisperx.load_audio(filename)
 
   torch.cuda.empty_cache()
@@ -46,10 +44,5 @@ def transcribe(filename):
 
   end_time = time.time()
   print("Total time:", round(end_time - init_time) , "s")
-
-  # 4. Save to JSON file
-  # f = open("result.json", "w")
-  # f.write(json.dumps(result["segments"]))
-  # f.close()
 
   return result["segments"]

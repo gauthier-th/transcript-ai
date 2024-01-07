@@ -1,7 +1,6 @@
 let transcriptionProcessed = false;
 
 function getColorForSpeaker(speakerId) {
-	// const colors = ['bg-red-300', 'bg-yellow-300', 'bg-blue-300', 'bg-green-300', 'bg-purple-300'];
 	const colors = ['#f0f0f0', '#e0f7fa', '#e8eaf6', '#f3e5f5', '#f1f8e9'];
 	return colors[speakerId % colors.length];
 }
@@ -61,7 +60,6 @@ document.getElementById('submitAudio').addEventListener('click', async () => {
 		container.innerHTML = '';
     transcriptionProcessed = true;
 
-    // document.getElementById("copyButton").style.display = "none";
     document.getElementById('conversation').classList.add('hidden');
   
 		jsonData.forEach((entry, index) => {
@@ -93,30 +91,9 @@ document.getElementById('submitAudio').addEventListener('click', async () => {
   document.getElementById("modal-loading").style.display = "none";
 });
 
-document.getElementById('copyButton').addEventListener('click', () => {
-  const transcriptionText = document.getElementById('transcriptionText').innerText;
-
-  if (transcriptionText) {
-    try {
-      navigator.clipboard.writeText(transcriptionText)
-      console.log('Texte copié avec succès !');
-      // const copyBtn = document.getElementById('copyButton');
-      copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-
-      setTimeout(() => {
-        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-      }, 1000);
-    }
-    catch {
-      console.error('Erreur lors de la copie du texte : ', err);
-    }
-  }
-});
-
 document.getElementById('summarizeButton').addEventListener('click', async () => {
-  // if (!transcriptionProcessed) return;
+  if (!transcriptionProcessed) return;
 
-  // document.getElementById("copyButton").style.display = "block";
   document.getElementById('conversation').classList.add('hidden');
 
   console.log("Demande de résumé de la transcription");
@@ -170,9 +147,7 @@ document.getElementById('summarizeButton').addEventListener('click', async () =>
 });
 
 document.getElementById('createConversation').addEventListener('click', async () => {
-  // if (!transcriptionProcessed) return;
-
-  // document.getElementById("copyButton").style.display = "none";
+  if (!transcriptionProcessed) return;
 
   console.log("Conversation avec ChatGPT");
   const container = document.getElementById('transcriptionText');

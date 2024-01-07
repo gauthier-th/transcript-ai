@@ -36,23 +36,21 @@
         </button>
       </div>
 
-	  <div class="mt-8 flex flex-col gap-2">
+      <div class="mt-8 flex flex-col gap-2">
         <button id="resetButton" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">
           Rénitialiser
         </button>
       </div>
+
     </div>
 
     <div id="transcription" class="relative w-full max-w-3xl flex flex-col bg-white p-8 pb-0 border border-gray-200 rounded-lg shadow-lg">
       <div class="flex-1 flex flex-col justify-between">
-        <button id="copyButton" class="absolute top-0 right-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded m-2" style="display: none;">
-          <i class="fa fa-copy"></i>
-        </button>
         <div id="transcriptionText" style="min-height: 100px; max-height: 400px; overflow-y: auto;" class="mb-4 flex flex-col gap-2">
-      <div style="display: flex; align-items: center; justify-content: center; margin: 20px auto; padding: 20px; border-radius: 10px; background-color: #f0f0f0; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); max-width: 400px;">
-        <div style="margin-right: 10px; font-size: 24px;">ℹ️</div>
-        <div style="font-size: 16px;">Bienvenue sur Transcript AI</div>
-        </div>
+          <div style="display: flex; align-items: center; justify-content: center; margin: 20px auto; padding: 20px; border-radius: 10px; background-color: #f0f0f0; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); max-width: 400px;">
+            <div style="margin-right: 10px; font-size: 24px;">ℹ️</div>
+            <div style="font-size: 16px;">Bienvenue sur Transcript AI</div>
+          </div>
           <div style="border-radius: 20px; padding: 10px 15px; margin-bottom: 10px; box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); background-color: #f0f0f0; max-width: 60%; align-self: flex-start;">
             Transcript AI est un outil de transcription automatique de vos fichiers audio. Il vous permet de gagner du temps !
           </div>
@@ -73,7 +71,7 @@
     </div>
 
     <div id="modal-loading" class="hidden fixed inset-0 bg-black/70 justify-center items-center">
-      <div class="">
+      <div class="flex flex-col items-center">
         <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
         <div class="text-center text-white text-xl font-semibold mt-4">Traitement en cours...</div>
       </div>

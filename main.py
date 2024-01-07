@@ -15,9 +15,13 @@ app = Flask(__name__,
             static_folder='./webapp',
             template_folder='./webapp')
 
+if (os.getenv("OPENAI_API_KEY") is None):
+  print("OPENAI_API_KEY is not set")
+  exit(1) 
+
 client = OpenAI()
 
-
+# only one file at a time
 file_processing = False
 
 @app.route('/')
@@ -36,6 +40,7 @@ def process():
     file = request.files['audio']
     filename = secure_filename(file.filename)
 
+    # save file to uploads folder
     num_files = len(os.listdir("uploads"))
     if not os.path.exists(str(num_files)):
       os.makedirs(os.path.join("uploads", str(num_files)))
@@ -47,13 +52,14 @@ def process():
     if extension != "wav":
       original_filename = filename
       filename = filename.replace(extension, "wav")
-      # convert to wav, 48000 Hz, 16-bit, mono
       os.system("ffmpeg -i " + original_filename + " -acodec pcm_s16le -ac 1 -ar 48000 " + filename)
 
+    # transcribe
     print("Transcribing", filename)
     data = transcribe(filename)
     data_json = json.dumps(data, ensure_ascii=False)
 
+    # save result to json file
     f = open(os.path.join("uploads", str(num_files), "result.json"), "w")
     f.write(data_json)
     f.close()
@@ -66,6 +72,7 @@ def process():
 
 @app.route('/api/summarize')
 def summarize():
+  # get transcription from last file in uploads folder
   num_files = len(os.listdir("uploads"))
   f = open(os.path.join("uploads", str(num_files - 1), "result.json"), "r")
   data = json.loads(f.read())
@@ -96,8 +103,9 @@ def summarize():
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
-  text = request.json["text"]
+  text = request.json["text"] # user input
 
+  # get transcription from last file in uploads folder
   num_files = len(os.listdir("uploads"))
   f = open(os.path.join("uploads", str(num_files - 1), "result.json"), "r")
   data = json.loads(f.read())
@@ -124,6 +132,7 @@ def chat():
   )
 
   return { "response": chat_completion.choices[0].message.content }
+
 
 if __name__ == '__main__':
   app.run(debug=True, host='0.0.0.0', port=5000)
