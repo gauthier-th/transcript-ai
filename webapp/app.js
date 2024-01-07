@@ -1,3 +1,5 @@
+let transcriptionProcessed = false;
+
 function getColorForSpeaker(speakerId) {
 	// const colors = ['bg-red-300', 'bg-yellow-300', 'bg-blue-300', 'bg-green-300', 'bg-purple-300'];
 	const colors = ['#f0f0f0', '#e0f7fa', '#e8eaf6', '#f3e5f5', '#f1f8e9'];
@@ -55,6 +57,7 @@ document.getElementById('submitAudio').addEventListener('click', async () => {
 		console.log("Transcription du fichier audio : ", jsonData);
 		const container = document.getElementById('transcriptionText');
 		container.innerHTML = '';
+    transcriptionProcessed = true;
   
 		jsonData.forEach((entry, index) => {
 		  const div = document.createElement('div');
@@ -77,7 +80,7 @@ document.getElementById('submitAudio').addEventListener('click', async () => {
       throw new Error(`Erreur lors de la transcription du fichier audio : ${res.status}`);
     }
   }
-  catch {
+  catch (err) {
     console.error('Erreur lors de la transcription du fichier audio : ', err);
     alert("Erreur lors de la transcription du fichier audio");
   }
@@ -103,11 +106,39 @@ document.getElementById('copyButton').addEventListener('click', () => {
   }
 });
 
-document.getElementById('summarizeButton').addEventListener('click', () => {
+document.getElementById('summarizeButton').addEventListener('click', async () => {
+  if (!transcriptionProcessed) return;
+
   console.log("Demande de résumé de la transcription");
   const container = document.getElementById('transcriptionText');
   container.innerHTML = '';
   container.appendChild(createInformationMessage('Résumé de la transcription'));
+
+  try {
+    const res = await fetch('/api/summarize');
+    if (res.ok) {
+      const jsonData = await res.json();
+      console.log("Résumé de la transcription : ", jsonData);
+      container.innerHTML = '';
+      const div = document.createElement('div');
+      div.textContent = jsonData.summary;
+      div.style.cssText = `
+        border-radius: 20px; 
+        padding: 10px 15px; 
+        margin-bottom: 10px; 
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); 
+        background-color: #f0f0f0; 
+        max-width: 60%; 
+        align-self: center;
+      `;
+      container.appendChild(div);
+    
+    }
+  }
+  catch (err) {
+    console.error('Erreur lors de la génération du résumé : ', err);
+    alert("Erreur lors de la génération du résumé");
+  }
 });
 
 document.getElementById('createTasksButton').addEventListener('click', () => {
@@ -122,4 +153,7 @@ document.getElementById('resetButton').addEventListener('click', () => {
   const container = document.getElementById('transcriptionText');
   container.innerHTML = '';
   container.appendChild(createInformationMessage('En attente de la prochaine transcription'));
+  const audioInput = document.getElementById('audioFile');
+  audioInput.value = '';
+  transcriptionProcessed = false;
 });

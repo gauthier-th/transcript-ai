@@ -15,7 +15,7 @@ source .venv/bin/activate
 
 Install the requirements:
 ```bash
-pip install git+https://github.com/m-bain/whisperx.git torch flask
+pip install git+https://github.com/m-bain/whisperx.git torch flask openai
 ```
 
 ## Usage
