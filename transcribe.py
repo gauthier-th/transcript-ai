@@ -2,6 +2,7 @@ import torch
 import whisperx
 import gc
 import time
+import os
 
 device = "cuda" # "cpu" or "cuda"
 batch_size = 32 # reduce if low on GPU mem
@@ -32,7 +33,7 @@ def transcribe(filename):
   # 3. Assign speaker labels
   diarize_model = whisperx.DiarizationPipeline(
     model_name='pyannote/speaker-diarization@2.1',
-    use_auth_token="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",
+    use_auth_token=os.getenv("HUGGINGFACE_TOKEN"),
     device=device
   )
 
